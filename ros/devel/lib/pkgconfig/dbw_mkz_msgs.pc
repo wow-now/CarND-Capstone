@@ -1,0 +1,8 @@
+prefix=/home/workspace/CarND-Capstone/ros/devel
+
+Name: dbw_mkz_msgs
+Description: Description of dbw_mkz_msgs
+Version: 1.0.13
+Cflags: -I/home/workspace/CarND-Capstone/ros/devel/include
+Libs: -L/home/workspace/CarND-Capstone/ros/devel/lib 
+Requires: message_runtime std_msgs geometry_msgs

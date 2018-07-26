@@ -1,0 +1,8 @@
+prefix=/home/workspace/CarND-Capstone/ros/install
+
+Name: styx_msgs
+Description: Description of styx_msgs
+Version: 0.0.0
+Cflags: -I/home/workspace/CarND-Capstone/ros/install/include
+Libs: -L/home/workspace/CarND-Capstone/ros/install/lib 
+Requires: 
