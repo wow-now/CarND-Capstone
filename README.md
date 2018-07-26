@@ -1,10 +1,10 @@
-##Final project
+## Final project
 This is the final project for SDC-ND
 This project ought to be finished by team, but I tried to reach the sign up sheet and udacitie's wechat group in China and got nothing. But thanks the help of ZhengLei, He download the traffic light bag file through VPN which let me passthrough the training image for the real car. After 1 month hard work in spare time. I finally finish this project.
  All nodes in the project was implemented follow the walkthrough video.
 It has one month since I start the project.
 
-####Zig zag and Project time consumption(one month)
+#### Zig zag and Project time consumption(one month)
 1. I used VMWare to install the vm disk image and my Host(win10) to run the simulator. It runs very well at the begining, but few hours later, the network service of the VMWare in the host computer began crushed. So I have to install the vm disk image to the VirtualBox.
 2. After intalled the vm disk image to the VirtualBox, another problem arised. The resolution of the lubuntu was so poor that it split the whole line of code into several lines. After several hours, I finally find the way to make it right.
 3. After coding the waypoint updater and bdw node, I found the pid controller could run steadily through the whole path. But when I switched on the image option, the whole wold turned over. The PID controller never ran smooth again, the car always ran out of the road and rushed into trees or hills. I didn't realize it untill I found the latancy problem on the slack. Two solution I have to choose, install simulator to the lubuntu or find another computer with high performance. I tried the easy one. But that wouldn't work because the OPENGL version couldn't match with the lubuntu. It has only 20 days to my deadline.
@@ -14,7 +14,7 @@ It has one month since I start the project.
 7. Integration test is a big trouble. It should be 99.2% accuracy in isolated objection dectection procedure, but in integration test was terrible things. Sometimes the traffic light classifiction can't work. I tuned the parameter of the system to optimize the performance, but nothing worked before the latency.
 8. Finally, It could work in the simulator. Every thing is worthing this time.
 
-####Running with simulator:
+#### Running with simulator:
 installing ROS
 (cloning the project)
 cd CarND-Capstone pip install -r requirements.txt (install python dependencies)
@@ -23,7 +23,7 @@ catkin_make
 source devel/setup.sh
 roslaunch launch/styx.launch
 
-####Running with real car:
+#### Running with real car:
 installing ROS
 (cloning the project)
 cd CarND-Capstone pip install -r requirements.txt (install python dependencies)
@@ -32,7 +32,7 @@ catkin_make
 source devel/setup.sh
 roslaunch launch/site.launch
 
-####Tuning parameters
+#### Tuning parameters
 To eliminate the loginfo displayed in the console, delete the  output="screen" in the launch file.
 To save the camera image to the "saveImgs" folder, set self.saveImgs = True in __init__ function in file tl_detect.py.
 I couldn't find parameter "isSite"  mentioned in the project introduction, instead I add parameter "isSiteP" in the launch file of tl_detector node.
