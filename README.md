@@ -1,8 +1,8 @@
 ##Final project
 This is the final project for SDC-ND
-This project ought to be finished by team, but I tried to reach the sign up sheet and udacitie's wechat group in China and got nothing. So I have to finish this project by myself. After 1 month hard work in spare time. I finally finish this project.
-All nodes in the project was implemented follow the walkthrough video.
-It has one month when I start the project.
+This project ought to be finished by team, but I tried to reach the sign up sheet and udacitie's wechat group in China and got nothing. But thanks the help of ZhengLei, He download the traffic light bag file through VPN which let me passthrough the training image for the real car. After 1 month hard work in spare time. I finally finish this project.
+ All nodes in the project was implemented follow the walkthrough video.
+It has one month since I start the project.
 
 ####Zig zag and Project time consumption(one month)
 1. I used VMWare to install the vm disk image and my Host(win10) to run the simulator. It runs very well at the begining, but few hours later, the network service of the VMWare in the host computer began crushed. So I have to install the vm disk image to the VirtualBox.
@@ -33,6 +33,7 @@ source devel/setup.sh
 roslaunch launch/site.launch
 
 ####Tuning parameters
-To eliminate the loginfo displayed in the console, delete the  output="screen" in the launch file
+To eliminate the loginfo displayed in the console, delete the  output="screen" in the launch file.
 To save the camera image to the "saveImgs" folder, set self.saveImgs = True in __init__ function in file tl_detect.py.
 I couldn't find parameter "isSite"  mentioned in the project introduction, instead I add parameter "isSiteP" in the launch file of tl_detector node.
+
