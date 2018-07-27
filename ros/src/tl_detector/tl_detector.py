@@ -29,7 +29,7 @@ class TLDetector(object):
 
         self.image_count = 0
 
-        self.state = TrafficLight.UNKNOWN
+        self.state = TrafficLight.RED
         self.last_state = TrafficLight.UNKNOWN
 
         self.last_wp = -1
@@ -87,12 +87,25 @@ class TLDetector(object):
 
 
         self.lastTime = rospy.get_time()      
-            
-
-        '''detector_rate = rospy.Rate(5)
+        
+        
+        
+        rate = rospy.Rate(200)
         while not rospy.is_shutdown():
-            self.find_traffic_lights()
-            detector_rate.sleep()'''
+            if self.pose and self.waypoints and self.lights:
+                #get closest waypoint
+                #closest_waypoint_idx = self.get_closest_waypoint_idx()
+                #rospy.loginfo('closest_waypoint_index:%s', closest_waypoint_idx)
+                #self.publish_waypoints(closest_waypoint_idx)
+                
+                self.InitializeImage = True
+                light_wp, state = self.process_traffic_lights()
+                self.find_traffic_lights(light_wp, state)
+                rospy.loginfo("=============finish initialize image===========")
+                self.InitializeImage = False
+                break
+            rate.sleep()
+        
         rospy.spin()
 
 
@@ -133,8 +146,8 @@ class TLDetector(object):
             self.has_image = True
             self.camera_image = msg
             light_wp, state = self.process_traffic_lights()
-            if state != 0:
-                iimage = self.bridge.imgmsg_to_cv2(self.camera_image, "bgr8")
+            if (state != 0)and self.saveImgs:
+                iimage = self.bridge.imgmsg_to_cv2(self.camera_image, "rgb8")
                 h,w,_ = iimage.shape
                 #rospy.loginfo("image width:%s height:%s state:%s",w,h,state)
                 if self.usingSimulator:            
@@ -172,6 +185,12 @@ class TLDetector(object):
         '''
         if state == TrafficLight.YELLOW:
             state = TrafficLight.RED
+            
+            
+        if self.InitializeImage:
+            self.last_wp = light_wp
+            self.upcoming_red_light_pub.publish(Int32(light_wp))
+            return
             
         if self.state != state:
             self.state_count = 0
@@ -241,7 +260,7 @@ class TLDetector(object):
             return light.state
 
         
-        cv_image = self.bridge.imgmsg_to_cv2(self.camera_image, "bgr8")
+        cv_image = self.bridge.imgmsg_to_cv2(self.camera_image, "rgb8")
         #cv_image = cv2.cvtColor(cv_image, cv2.COLOR_BGR2RGB)
         #narrow down seaching area of the image    
         
@@ -290,7 +309,11 @@ class TLDetector(object):
         
         if light:
             rospy.loginfo("car pos:%s closest light idx %s diff:%s" ,car_position,light_wp, diff)
-            state = self.get_light_state(light)
+            if self.InitializeImage:
+                #for first image latency
+                state = 0 
+            else:
+                state = self.get_light_state(light)
             
             return light_wp, state
 
