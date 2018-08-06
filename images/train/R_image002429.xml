@@ -1,0 +1,26 @@
+<annotation>
+	<folder>pic_sim</folder>
+	<filename>R_image002429.jpg</filename>
+	<path>/home/fang/Downloads/labelImg/data/pic_sim/R_image002429.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>800</width>
+		<height>600</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>RED</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>604</xmin>
+			<ymin>142</ymin>
+			<xmax>680</xmax>
+			<ymax>308</ymax>
+		</bndbox>
+	</object>
+</annotation>
