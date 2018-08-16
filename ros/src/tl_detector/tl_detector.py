@@ -24,11 +24,13 @@ class TLDetector(object):
         self.waypoints = None
         self.waypoints_2d = None
         self.waypoint_tree = None
+        self.InitializeImage = True
 
         self.stateCount = 0
 
         self.image_count = 0
-
+        
+        self.total_image_count = 0
         self.state = TrafficLight.RED
         self.last_state = TrafficLight.UNKNOWN
 
@@ -53,7 +55,7 @@ class TLDetector(object):
         isSite = bool(rospy.get_param("~is_siteP", True))
         if  isSite:
             self.usingSimulator = False
-            rospy.loginfo("+++++++++++++++Using simulator+++++++++++++++") 
+            rospy.loginfo("+++++++++++++++Using site+++++++++++++++") 
         else:
             self.usingSimulator = True
             rospy.loginfo("+++++++++++++++Using simulator+++++++++++++++")
@@ -98,7 +100,7 @@ class TLDetector(object):
                 #rospy.loginfo('closest_waypoint_index:%s', closest_waypoint_idx)
                 #self.publish_waypoints(closest_waypoint_idx)
                 
-                self.InitializeImage = True
+                
                 light_wp, state = self.process_traffic_lights()
                 self.find_traffic_lights(light_wp, state)
                 rospy.loginfo("=============finish initialize image===========")
@@ -135,6 +137,7 @@ class TLDetector(object):
         #rospy.loginfo("Time elapsed:%s",ThisTime - self.lastTime)
         self.lastTime = ThisTime
         self.image_count = self.image_count + 1
+        self.total_image_count = self.total_image_count + 1
         
         THRESHOLD_SAMPLE = 1
         #if self.usingSimulator:
@@ -269,7 +272,9 @@ class TLDetector(object):
             cv_image = cv_image[0:int(0.7*h),0:w]
         else:
             cv_image = cv_image[0:int(0.7*h),0:w]
-            
+        
+        if self.total_image_count < 2:
+            rospy.loginfo("===========pic w:%s h:%s===========" ,w,h)
         #Get classification
         return self.light_classifier.get_classification(cv_image)
     
