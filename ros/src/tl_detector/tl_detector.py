@@ -40,7 +40,7 @@ class TLDetector(object):
         self.camera_image = None
         self.lights = []
 
-        self.saveImgs = True
+        self.saveImgs = False
         if self.saveImgs:
             if not (os.path.exists("./saveImgs")):
                 os.mkdir("./saveImgs")
