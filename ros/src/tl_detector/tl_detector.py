@@ -98,8 +98,7 @@ class TLDetector(object):
                 #get closest waypoint
                 #closest_waypoint_idx = self.get_closest_waypoint_idx()
                 #rospy.loginfo('closest_waypoint_index:%s', closest_waypoint_idx)
-                #self.publish_waypoints(closest_waypoint_idx)
-                
+                #self.publish_waypoints(closest_waypoint_idx)                
                 
                 light_wp, state = self.process_traffic_lights()
                 self.find_traffic_lights(light_wp, state)
@@ -150,7 +149,10 @@ class TLDetector(object):
             self.camera_image = msg
             light_wp, state = self.process_traffic_lights()
             if (state != 0)and self.saveImgs:
-                iimage = self.bridge.imgmsg_to_cv2(self.camera_image, "rgb8")
+                if self.usingSimulator == False:
+                    iimage = self.bridge.imgmsg_to_cv2(self.camera_image, "bgr8")
+                else:
+                    iimage = self.bridge.imgmsg_to_cv2(self.camera_image, "rgb8")
                 h,w,_ = iimage.shape
                 #rospy.loginfo("image width:%s height:%s state:%s",w,h,state)
                 if self.usingSimulator:            
@@ -169,11 +171,11 @@ class TLDetector(object):
         takeImage = image
         if not self.usingSimulator:
             lsImageName ="./saveImgs/image0{0:0>5}.jpg".format(self.saveCount)
-            #rospy.loginfo("save image:%s",lsImageName)
+            rospy.loginfo("save image:%s",lsImageName)
             cv2.imwrite(lsImageName, takeImage)
         else:
             lsImageName ="./saveImgs/{0}_image6{1:0>5}.jpg".format(dictTL[state],self.saveCount)
-            rospy.loginfo("save image:%s",lsImageName)
+            #rospy.loginfo("save image:%s",lsImageName)
             cv2.imwrite(lsImageName, takeImage)
         self.saveCount += 1
         
@@ -261,9 +263,13 @@ class TLDetector(object):
                 
             self.stateCount = self.stateCount + 1    
             return light.state
-
         
         cv_image = self.bridge.imgmsg_to_cv2(self.camera_image, "rgb8")
+        #if self.usingSimulator == False:
+        #    cv_image = self.bridge.imgmsg_to_cv2(self.camera_image, "bgr8")
+        #else:
+        #    cv_image = self.bridge.imgmsg_to_cv2(self.camera_image, "rgb8")
+        
         #cv_image = cv2.cvtColor(cv_image, cv2.COLOR_BGR2RGB)
         #narrow down seaching area of the image    
         
@@ -273,7 +279,7 @@ class TLDetector(object):
         else:
             cv_image = cv_image[0:int(0.7*h),0:w]
         
-        if self.total_image_count < 2:
+        if self.total_image_count < 3:
             rospy.loginfo("===========pic w:%s h:%s===========" ,w,h)
         #Get classification
         return self.light_classifier.get_classification(cv_image)
