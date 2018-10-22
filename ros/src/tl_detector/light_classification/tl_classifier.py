@@ -82,7 +82,9 @@ class TLClassifier(object):
             rospy.loginfo("classes:%s",classes[0:3])
             if detect_count > 0 :
                 maxIdx =np.argmax(scores)
-                if ((scores[maxIdx] > 0.2) or (lstClasses[maxIdx]==1)):
+                if (scores[maxIdx] < 0.06):
+		    liRet = 2
+		else:
                     liRet = int(lstClasses[maxIdx]) - 1
                     #rospy.loginfo("scroes:%s classes:%s",scores[maxIdx],lstClasses[maxIdx])
 
